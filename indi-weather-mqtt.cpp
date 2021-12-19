@@ -311,42 +311,42 @@ void WeatherMQTT::mqttMsg(char* topic, char* msg)
 {
 	DEBUGF(INDI::Logger::DBG_DEBUG, "Received MQTT message '%s for topic %s", topic, msg);
 
-	if (!strcmp(MqttTopicsT[0].text, topic)) {
+	if (MqttTopicsT[0].text != NULL && !strcmp(MqttTopicsT[0].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Temperature received.");
 		setParameterValue("WEATHER_TEMPERATURE", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[1].text, topic)) {
+	if (MqttTopicsT[1].text != NULL && !strcmp(MqttTopicsT[1].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Humidity received.");
 		setParameterValue("WEATHER_HUMIDITY", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[2].text, topic)) {
+	if (MqttTopicsT[2].text != NULL && !strcmp(MqttTopicsT[2].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Pressure received.");
 		setParameterValue("WEATHER_PRESSURE", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[3].text, topic)) {
+	if (MqttTopicsT[3].text != NULL && !strcmp(MqttTopicsT[3].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Wind received.");
 		setParameterValue("WEATHER_WIND_SPEED", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[4].text, topic)) {
+	if (MqttTopicsT[4].text != NULL && !strcmp(MqttTopicsT[4].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Wind gust received.");
 		setParameterValue("WEATHER_WIND_GUST", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[5].text, topic)) {
+	if (MqttTopicsT[5].text != NULL && !strcmp(MqttTopicsT[5].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Rain received.");
 		setParameterValue("WEATHER_RAINFALL", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[6].text, topic)) {
+	if (MqttTopicsT[6].text != NULL && !strcmp(MqttTopicsT[6].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Clouds received.");
 		setParameterValue("WEATHER_CLOUDS", atof(msg));
 	}
 
-	if (!strcmp(MqttTopicsT[7].text, topic)) {
+	if (MqttTopicsT[7].text != NULL && !strcmp(MqttTopicsT[7].text, topic)) {
 		DEBUG(INDI::Logger::DBG_DEBUG, "Light received.");
 		setParameterValue("WEATHER_LIGHT", atof(msg));
 	}
