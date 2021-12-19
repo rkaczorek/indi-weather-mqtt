@@ -264,7 +264,7 @@ void WeatherMQTT::mqttSubscribe()
 	// subscribe to each topic
 	for (int i=0; i < topics; i++)
 	{
-		if (MqttTopicsT[i].text != NULL)
+		if (MqttTopicsT[i].text != NULL && MqttTopicsT[i].text[0] != '\0')
 		{
 			if (!mosquitto_subscribe(mosq, NULL, MqttTopicsT[i].text, 0))
 			{
@@ -286,7 +286,7 @@ void WeatherMQTT::mqttUnSubscribe()
 	// unsubscribe each topic
 	for (int i=0; i < topics; i++)
 	{
-		if (MqttTopicsT[i].text != NULL)
+		if (MqttTopicsT[i].text != NULL && MqttTopicsT[i].text[0] != '\0')
 		{
 			if (!mosquitto_unsubscribe(mosq, NULL, MqttTopicsT[i].text))
 			{
