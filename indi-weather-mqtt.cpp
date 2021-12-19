@@ -107,7 +107,8 @@ bool WeatherMQTT::initProperties()
 	IUFillText(&MqttTopicsT[4], "MQTT_GUST", "Gust", "");
 	IUFillText(&MqttTopicsT[5], "MQTT_RAIN", "Rain", "");
 	IUFillText(&MqttTopicsT[6], "MQTT_CLOUDS", "Clouds", "");
-	IUFillTextVector(&MqttTopicsTP, MqttTopicsT, 7, getDeviceName(), "MQTT_TOPICS", "MQTT Topics", OPTIONS_TAB,IP_RW, 0, IPS_IDLE);
+	IUFillText(&MqttTopicsT[7], "MQTT_LIGHT", "Light", "");
+	IUFillTextVector(&MqttTopicsTP, MqttTopicsT, 8, getDeviceName(), "MQTT_TOPICS", "MQTT Topics", OPTIONS_TAB,IP_RW, 0, IPS_IDLE);
 
 	// add weather parameters
     addParameter("WEATHER_FORECAST", "Weather", 0, 1, 15);
@@ -118,6 +119,7 @@ bool WeatherMQTT::initProperties()
     addParameter("WEATHER_WIND_GUST", "Wind Gust (kph)", 0, 20, 15);
     addParameter("WEATHER_RAINFALL", "Rain (mm)", 0, 0, 15);
     addParameter("WEATHER_CLOUDS", "Clouds (%)", 0, 100, 15);
+    addParameter("WEATHER_LIGHT", "Light (mag/arcsec^2)", 0, 22, 15);
 
 	// set default values
     setParameterValue("WEATHER_FORECAST", 0);
@@ -128,6 +130,7 @@ bool WeatherMQTT::initProperties()
     setParameterValue("WEATHER_WIND_GUST", 0);
     setParameterValue("WEATHER_RAINFALL", 0);
     setParameterValue("WEATHER_CLOUDS", 0);
+    setParameterValue("WEATHER_LIGHT", 18);
 
 	// set critical weather parameters
     setCriticalParameter("WEATHER_FORECAST");
@@ -138,6 +141,7 @@ bool WeatherMQTT::initProperties()
     //setCriticalParameter("WEATHER_WIND_GUST");
     setCriticalParameter("WEATHER_RAINFALL");
     setCriticalParameter("WEATHER_CLOUDS");
+    setCriticalParameter("WEATHER_LIGHT");
 
 	// we need this before connecting to mqtt broker
 	defineProperty(&MqttServerTP);
@@ -342,20 +346,25 @@ void WeatherMQTT::mqttMsg(char* topic, char* msg)
 		setParameterValue("WEATHER_CLOUDS", atof(msg));
 	}
 
+	if (!strcmp(MqttTopicsT[7].text, topic)) {
+		DEBUG(INDI::Logger::DBG_DEBUG, "Light received.");
+		setParameterValue("WEATHER_LIGHT", atof(msg));
+	}
+
 	// clear
-	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_OK && checkParameterState("WEATHER_HUMIDITY") == IPS_OK && checkParameterState("WEATHER_WIND_SPEED") == IPS_OK && checkParameterState("WEATHER_RAINFALL") == IPS_OK && checkParameterState("WEATHER_CLOUDS") == IPS_OK)
+	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_OK && checkParameterState("WEATHER_HUMIDITY") == IPS_OK && checkParameterState("WEATHER_WIND_SPEED") == IPS_OK && checkParameterState("WEATHER_RAINFALL") == IPS_OK && checkParameterState("WEATHER_CLOUDS") == IPS_OK && checkParameterState("WEATHER_LIGHT") == IPS_OK)
 	{
 		setParameterValue("WEATHER_FORECAST", 0);
 	}
 	
 	// warning zone
-	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_BUSY || checkParameterState("WEATHER_HUMIDITY") == IPS_BUSY || checkParameterState("WEATHER_WIND_SPEED") == IPS_BUSY || checkParameterState("WEATHER_RAINFALL") == IPS_BUSY || checkParameterState("WEATHER_CLOUDS") == IPS_BUSY)
+	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_BUSY || checkParameterState("WEATHER_HUMIDITY") == IPS_BUSY || checkParameterState("WEATHER_WIND_SPEED") == IPS_BUSY || checkParameterState("WEATHER_RAINFALL") == IPS_BUSY || checkParameterState("WEATHER_CLOUDS") == IPS_BUSY || checkParameterState("WEATHER_LIGHT") == IPS_BUSY)
 	{
 		setParameterValue("WEATHER_FORECAST", 1);
 	}
 
 	// danger zone
-	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_ALERT || checkParameterState("WEATHER_HUMIDITY") == IPS_ALERT || checkParameterState("WEATHER_WIND_SPEED") == IPS_ALERT || checkParameterState("WEATHER_RAINFALL") == IPS_ALERT || checkParameterState("WEATHER_CLOUDS") == IPS_ALERT)
+	if (checkParameterState("WEATHER_TEMPERATURE") == IPS_ALERT || checkParameterState("WEATHER_HUMIDITY") == IPS_ALERT || checkParameterState("WEATHER_WIND_SPEED") == IPS_ALERT || checkParameterState("WEATHER_RAINFALL") == IPS_ALERT || checkParameterState("WEATHER_CLOUDS") == IPS_ALERT || checkParameterState("WEATHER_LIGHT") == IPS_ALERT)
 	{
 		setParameterValue("WEATHER_FORECAST", 2);
 	}	
