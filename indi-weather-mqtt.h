@@ -45,7 +45,7 @@ class WeatherMQTT : public INDI::Weather
   private:
     IText MqttServerT[4];
     ITextVectorProperty MqttServerTP;
-    IText MqttTopicsT[7];
+    IText MqttTopicsT[8];
     ITextVectorProperty MqttTopicsTP;
 
 	struct mosquitto *mosq = NULL;
