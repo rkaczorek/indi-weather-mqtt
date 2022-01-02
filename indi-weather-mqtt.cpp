@@ -32,12 +32,13 @@ std::unique_ptr<WeatherMQTT> weatherMQTT(new WeatherMQTT());
 
 WeatherMQTT::WeatherMQTT()
 {
+    setVersion(VERSION_MAJOR,VERSION_MINOR);
     setWeatherConnection(CONNECTION_NONE);
 
-	mosquitto_lib_init();
-	snprintf(mqtt_clientid, 31, "indi-weather-mqtt-%d", getpid());
-	mosq = mosquitto_new(mqtt_clientid, true, this);
-	mosquitto_message_callback_set(mosq, mqttMsgCallback);
+    mosquitto_lib_init();
+    snprintf(mqtt_clientid, 31, "indi-weather-mqtt-%d", getpid());
+    mosq = mosquitto_new(mqtt_clientid, true, this);
+    mosquitto_message_callback_set(mosq, mqttMsgCallback);
 }
 
 WeatherMQTT::~WeatherMQTT()
