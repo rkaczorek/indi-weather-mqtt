@@ -168,8 +168,8 @@ bool WeatherMQTT::updateProperties()
 		// IDSetNumber(&UpdatePeriodNP, nullptr);
 
 		// we don't need these properties
-		deleteProperty(RefreshSP.name);
-		deleteProperty(UpdatePeriodNP.name);
+		// deleteProperty(RefreshSP.name);
+		// deleteProperty(UpdatePeriodNP.name);
     } else {
 		// nop
 	}
