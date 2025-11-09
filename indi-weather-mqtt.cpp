@@ -163,13 +163,9 @@ bool WeatherMQTT::updateProperties()
 
     if (isConnected())
     {
-		// we are not using timer
-		UpdatePeriodN[0].value = 0;
-		IDSetNumber(&UpdatePeriodNP, nullptr);
-
 		// we don't need these properties
-		deleteProperty(RefreshSP.name);
-		deleteProperty(UpdatePeriodNP.name);
+		deleteProperty(RefreshSP);
+		deleteProperty(UpdatePeriodNP);
     } else {
 		// nop
 	}
