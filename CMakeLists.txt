@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.4.7)
+cmake_minimum_required(VERSION 3.16)
 
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
@@ -28,6 +28,8 @@ include(CMakeCommon)
 set(indi_weather_mqtt_SRC ${CMAKE_CURRENT_SOURCE_DIR}/indi-weather-mqtt.cpp)
 
 add_executable(indi_weather_mqtt ${indi_weather_mqtt_SRC})
+
+target_compile_features(indi_weather_mqtt PRIVATE cxx_std_17)
 
 target_link_libraries(indi_weather_mqtt ${INDI_LIBRARIES} ${MOSQUITTO_LIBRARIES})
 
