@@ -1,3 +1,5 @@
+This project has beeen merged with official https://github.com/indilib/indi-3rdparty
+
 # indi-weather-mqtt
 INDI driver for weather monitoring from an arbitrary MQTT source.
 This driver is superior to any existing driver as it can be fed
